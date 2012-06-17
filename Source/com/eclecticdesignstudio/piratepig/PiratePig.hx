@@ -5,8 +5,6 @@ import nme.Assets;
 import nme.display.Bitmap;
 import nme.display.BitmapData;
 import nme.display.Sprite;
-import nme.display.StageAlign;
-import nme.display.StageScaleMode;
 import nme.events.Event;
 import nme.events.KeyboardEvent;
 import nme.Lib;
@@ -51,9 +49,6 @@ class PiratePig extends Sprite {
 	
 	
 	private function initialize ():Void {
-		
-		Lib.current.stage.align = StageAlign.TOP_LEFT;
-		Lib.current.stage.scaleMode = StageScaleMode.NO_SCALE;
 		
 		Background = new Bitmap (Assets.getBitmapData ("images/background_tile.png"));
 		Footer = new Bitmap (Assets.getBitmapData ("images/center_bottom.png"));
