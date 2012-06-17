@@ -100,18 +100,4 @@ class PiratePig extends Sprite {
 	}
 	
 	
-	
-	
-	// Entry point
-	
-	
-	
-	
-	public static function main () {
-		
-		Lib.current.addChild (new PiratePig ());
-		
-	}
-	
-	
 }
