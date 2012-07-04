@@ -30,6 +30,7 @@
 	</assets>
 	
 	<icon path="Assets/icons/icon-512.png" size="512" />
+	<icon path="Assets/icons/icon-144.png" size="144" />
 	<icon path="Assets/icons/icon-114.png" size="114" />
 	<icon path="Assets/icons/icon-96.png" size="96" />
 	<icon path="Assets/icons/icon-72.png" size="72" />
