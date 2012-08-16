@@ -71,12 +71,16 @@ class PiratePigGame extends Sprite {
 			
 			var firstPosition = getPosition (-1, column);
 			
+			#if !js
 			tile.alpha = 0;
+			#end
 			tile.x = firstPosition.x;
 			tile.y = firstPosition.y;
 			
 			tile.moveTo (0.1 + 0.05 * (row + 1), position.x, position.y);
+			#if !js
 			Actuate.tween (tile, 0.15, { alpha: 1 } ).ease (Quad.easeOut);
+			#end
 			
 		} else {
 			
@@ -408,7 +412,6 @@ class PiratePigGame extends Sprite {
 		var currentHeight = height;
 		
 		#end
-		
 		
 		if (currentWidth > maxWidth || currentHeight > maxHeight) {
 			

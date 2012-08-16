@@ -41,6 +41,8 @@ class PiratePig extends Sprite {
 	
 	private function construct ():Void {
 		
+		Footer.smoothing = true;
+		
 		addChild (Background);
 		addChild (Footer);
 		addChild (Game);

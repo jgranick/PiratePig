@@ -81,6 +81,10 @@ class Tile extends Sprite {
 	
 	public function remove (animate:Bool = true):Void {
 		
+		#if js
+		animate = false;
+		#end
+		
 		if (!removed) {
 			
 			if (animate) {
