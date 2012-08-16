@@ -28,6 +28,8 @@ class PiratePigGame extends Sprite {
 	private static var NUM_COLUMNS:Int = 8;
 	private static var NUM_ROWS:Int = 8;
 	
+	private static var tileImages:Array <String> = [ "images/game_bear.png", "images/game_bunny_02.png", "images/game_carrot.png", "images/game_lemon.png", "images/game_panda.png", "images/game_piratePig.png" ];
+	
 	private var Background:Sprite;
 	private var IntroSound:Sound;
 	private var Logo:Bitmap;
@@ -44,6 +46,7 @@ class PiratePigGame extends Sprite {
 	private var needToCheckMatches:Bool;
 	private var selectedTile:Tile;
 	private var tiles:Array <Array <Tile>>;
+	private var usedTiles:Array <Tile>;
 	
 	
 	public function new () {
@@ -60,7 +63,28 @@ class PiratePigGame extends Sprite {
 	
 	private function addTile (row:Int, column:Int, animate:Bool = true):Void {
 		
-		var tile = new Tile ();
+		var tile = null;
+		var type = Math.round (Math.random () * (tileImages.length - 1));
+		
+		for (usedTile in usedTiles) {
+			
+			if (usedTile.removed && usedTile.type == type) {
+				
+				tile = usedTile;
+				
+			}
+			
+		}
+		
+		if (tile == null) {
+			
+			tile = new Tile (tileImages[type]);
+			
+		}
+		
+		tile.initialize ();
+		
+		tile.type = type;
 		tile.row = row;
 		tile.column = column;
 		tiles[row][column] = tile;
@@ -321,6 +345,7 @@ class PiratePigGame extends Sprite {
 		currentScore = 0;
 		
 		tiles = new Array <Array <Tile>> ();
+		usedTiles = new Array <Tile> ();
 		
 		for (row in 0...NUM_ROWS) {
 			
@@ -382,6 +407,7 @@ class PiratePigGame extends Sprite {
 		if (tile != null) {
 			
 			tile.remove (animate);
+			usedTiles.push (tile);
 			
 		}
 		

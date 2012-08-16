@@ -23,29 +23,34 @@ class Tile extends Sprite {
 	public var row:Int;
 	public var type:Int;
 	
-	private static var images:Array <String> = [ "images/game_bear.png", "images/game_bunny_02.png", "images/game_carrot.png", "images/game_lemon.png", "images/game_panda.png", "images/game_piratePig.png" ];
 	
-	
-	public function new () {
+	public function new (imagePath:String) {
 		
 		super ();
 		
-		moving = false;
-		type = Math.round (Math.random () * (images.length - 1));
-		
-		var image = new Bitmap (Assets.getBitmapData (images[type]));
+		var image = new Bitmap (Assets.getBitmapData (imagePath));
 		image.smoothing = true;
 		addChild (image);
-		
-		#if !js
-		filters = [ new BlurFilter (0, 0) ];
-		#end
 		
 		mouseChildren = false;
 		buttonMode = true;
 		
 		graphics.beginFill (0x000000, 0);
 		graphics.drawRect (-5, -5, 66, 66);
+		
+	}
+	
+	
+	public function initialize ():Void {
+		
+		moving = false;
+		removed = false;
+		
+		#if !js
+		scaleX = 1;
+		scaleY = 1;
+		filters = [ new BlurFilter (0, 0) ];
+		#end
 		
 	}
 	
