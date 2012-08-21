@@ -74,12 +74,10 @@
     <OutputPath>.</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Assets\nme.svg" />
-    <Compile Include="Assets\icon-32.png" />
-    <Compile Include="Assets\icon-48.png" />
-    <Compile Include="Assets\icon-512.png" />
-    <Compile Include="Assets\icon-56.png" />
-    <Compile Include="Assets\icon-64.png" />
+    <Compile Include="Source\com\eclecticdesignstudio\piratepig\PiratePig.hx" />
+    <Compile Include="Source\com\eclecticdesignstudio\piratepig\PiratePigGame.hx" />
+    <Compile Include="Source\com\eclecticdesignstudio\piratepig\Tile.hx" />
+    <Compile Include="Pirate Pig.nmml" />
     <Compile Include="Assets\fonts\FreebooterUpdated.ttf" />
     <Compile Include="Assets\fonts\FreebooterUpdated.ttf.hash" />
     <Compile Include="Assets\images\background_tile.png" />
@@ -90,6 +88,7 @@
     <Compile Include="Assets\images\game_lemon.png" />
     <Compile Include="Assets\images\game_panda.png" />
     <Compile Include="Assets\images\game_piratePig.png" />
+    <Compile Include="Assets\images\icon.svg" />
     <Compile Include="Assets\images\logo.png" />
     <Compile Include="Assets\sounds\3.mp3" />
     <Compile Include="Assets\sounds\3.ogg" />
@@ -106,9 +105,8 @@
     <Compile Include="Assets\sounds\whiff.mp3" />
     <Compile Include="Assets\sounds\whiff.ogg" />
     <Compile Include="Assets\sounds\whiff.wav" />
-    <Compile Include="Source\com\eclecticdesignstudio\piratepig\PiratePig.hx" />
-    <Compile Include="Source\com\eclecticdesignstudio\piratepig\PiratePigGame.hx" />
-    <Compile Include="Source\com\eclecticdesignstudio\piratepig\Tile.hx" />
-    <Compile Include="Pirate Pig.nmml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets\" />
   </ItemGroup>
 </Project>
