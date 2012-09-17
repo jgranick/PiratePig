@@ -3,11 +3,11 @@ package com.eclecticdesignstudio.piratepig;
 
 import com.eclecticdesignstudio.motion.Actuate;
 import com.eclecticdesignstudio.motion.actuators.GenericActuator;
+import com.eclecticdesignstudio.motion.easing.Linear;
 import com.eclecticdesignstudio.motion.easing.Quad;
 import nme.Assets;
 import nme.display.Bitmap;
 import nme.display.Sprite;
-import nme.filters.BlurFilter;
 
 
 /**
@@ -35,6 +35,10 @@ class Tile extends Sprite {
 		mouseChildren = false;
 		buttonMode = true;
 		
+		// Currently, MouseEvent listeners are added to each Tile.
+		// To make them easier to tap, add an empty fill to increase 
+		// the size of the hit area
+		
 		graphics.beginFill (0x000000, 0);
 		graphics.drawRect (-5, -5, 66, 66);
 		
@@ -49,7 +53,7 @@ class Tile extends Sprite {
 		#if !js
 		scaleX = 1;
 		scaleY = 1;
-		filters = [ new BlurFilter (0, 0) ];
+		alpha = 1;
 		#end
 		
 	}
@@ -59,27 +63,7 @@ class Tile extends Sprite {
 		
 		moving = true;
 		
-		var blurX = 0;
-		var blurY = 0;
-		
-		if (targetX != x) {
-			
-			blurX = Std.int (Math.abs (x - targetX) / 3);
-			
-		}
-		
-		if (targetY != y) {
-			
-			blurY = Std.int (Math.abs (y - targetY) / 3);
-			
-		}
-		
-		#if !js
-		Actuate.effects (this, 0.001).filter (BlurFilter, { blurX: blurX, blurY: blurY } );
-		Actuate.effects (this, duration * (2 / 3), false).filter (BlurFilter, { blurX: 0, blurY: 0 } ).delay (duration / 3);
-		#end
-		
-		Actuate.tween (this, duration, { x: targetX, y: targetY } ).onComplete (this_onAnimationComplete).ease (Quad.easeOut);
+		Actuate.tween (this, duration, { x: targetX, y: targetY } ).ease (Quad.easeOut).onComplete (this_onMoveToComplete);
 		
 	}
 	
@@ -95,17 +79,15 @@ class Tile extends Sprite {
 			if (animate) {
 				
 				parent.addChildAt (this, 0);
-				Actuate.tween (this, 0.3, { scaleX: 0, scaleY: 0, x: x + width / 2, y: y + height / 2 } ).ease (Quad.easeOut).onComplete (parent.removeChild, [ this ]);
+				Actuate.tween (this, 0.6, { alpha: 0, scaleX: 2, scaleY: 2, x: x - width / 2, y: y - height / 2 } ).onComplete (this_onRemoveComplete);
 				
 			} else {
 				
-				parent.removeChild (this);
+				this_onRemoveComplete ();
 				
 			}
 			
 		}
-		
-		removed = true;
 		
 	}
 	
@@ -117,9 +99,17 @@ class Tile extends Sprite {
 	
 	
 	
-	private function this_onAnimationComplete ():Void {
+	private function this_onMoveToComplete ():Void {
 		
 		moving = false;
+		
+	}
+	
+	
+	private function this_onRemoveComplete ():Void {
+		
+		parent.removeChild (this);
+		removed = true;
 		
 	}
 	

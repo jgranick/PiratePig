@@ -6,43 +6,43 @@
     <ProductVersion>10.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{4B226737-B02A-44DF-908A-64CC112FB388}</ProjectGuid>
-    <TargetNMMLFile>Pirate Pig.nmml</TargetNMMLFile>
+    <TargetNMMLFile>project.nmml</TargetNMMLFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Android' ">
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>True</DebugSymbols>
     <OutputPath>.</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|BlackBerry' ">
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>True</DebugSymbols>
     <OutputPath>.</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Flash' ">
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>True</DebugSymbols>
     <OutputPath>.</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|HTML5' ">
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>True</DebugSymbols>
     <OutputPath>.</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iOS' ">
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>True</DebugSymbols>
     <OutputPath>.</OutputPath>
     <AdditionalArguments>-simulator</AdditionalArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Linux' ">
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>True</DebugSymbols>
     <OutputPath>.</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Mac' ">
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>True</DebugSymbols>
     <OutputPath>.</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|webOS' ">
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>True</DebugSymbols>
     <OutputPath>.</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Windows' ">
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>True</DebugSymbols>
     <OutputPath>.</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Android' ">
@@ -77,7 +77,6 @@
     <Compile Include="Source\com\eclecticdesignstudio\piratepig\PiratePig.hx" />
     <Compile Include="Source\com\eclecticdesignstudio\piratepig\PiratePigGame.hx" />
     <Compile Include="Source\com\eclecticdesignstudio\piratepig\Tile.hx" />
-    <Compile Include="Pirate Pig.nmml" />
     <Compile Include="Assets\fonts\FreebooterUpdated.ttf" />
     <Compile Include="Assets\fonts\FreebooterUpdated.ttf.hash" />
     <Compile Include="Assets\images\background_tile.png" />
@@ -105,6 +104,7 @@
     <Compile Include="Assets\sounds\whiff.mp3" />
     <Compile Include="Assets\sounds\whiff.ogg" />
     <Compile Include="Assets\sounds\whiff.wav" />
+    <Compile Include="project.nmml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\" />

@@ -101,9 +101,9 @@ class PiratePigGame extends Sprite {
 			tile.x = firstPosition.x;
 			tile.y = firstPosition.y;
 			
-			tile.moveTo (0.1 + 0.05 * (row + 1), position.x, position.y);
+			tile.moveTo (0.15 * (row + 1), position.x, position.y);
 			#if !js
-			Actuate.tween (tile, 0.15, { alpha: 1 } ).ease (Quad.easeOut);
+			Actuate.tween (tile, 0.3, { alpha: 1 } ).delay (0.15 * (row - 2)).ease (Quad.easeOut);
 			#end
 			
 		} else {
@@ -129,10 +129,8 @@ class PiratePigGame extends Sprite {
 		defaultFormat.align = TextFormatAlign.RIGHT;
 		
 		#if js
-		
-		// right-aligned text is not supported yet
+		// Right-aligned text is not supported in HTML5 yet
 		defaultFormat.align = TextFormatAlign.LEFT;
-		
 		#end
 		
 		var contentWidth = 75 * NUM_COLUMNS;

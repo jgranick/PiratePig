@@ -6,8 +6,11 @@
 	
 	<window width="800" height="600" if="desktop" />
 	<window width="0" height="0" if="web" />
-	<window fps="30" />
+	<window orientation="portrait" if="mobile" />
+	<window fps="60" />
 	
+	<!-- <window shaders="true" if="desktop" /> -->
+
 	<source path="Source" />
 	
 	<haxelib name="nme" />
@@ -34,7 +37,7 @@
 	
 	<section if="release-sign">
 		<certificate path="C:\Development\Android\eclecticdesignstudio.keystore" if="android" />
-		<certificate path="C:\Development\BlackBerry\author.p12" if="blackberry" />
+		<certificate path="~/Development/BlackBerry/author.p12" if="blackberry" />
 	</section>
 	
 </project>
