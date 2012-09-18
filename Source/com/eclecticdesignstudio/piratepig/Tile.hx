@@ -78,6 +78,9 @@ class Tile extends Sprite {
 			
 			if (animate) {
 				
+				mouseEnabled = false;
+				buttonMode = false;
+				
 				parent.addChildAt (this, 0);
 				Actuate.tween (this, 0.6, { alpha: 0, scaleX: 2, scaleY: 2, x: x - width / 2, y: y - height / 2 } ).onComplete (this_onRemoveComplete);
 				
@@ -88,6 +91,8 @@ class Tile extends Sprite {
 			}
 			
 		}
+		
+		removed = true;
 		
 	}
 	
@@ -109,7 +114,6 @@ class Tile extends Sprite {
 	private function this_onRemoveComplete ():Void {
 		
 		parent.removeChild (this);
-		removed = true;
 		
 	}
 	

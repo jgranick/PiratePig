@@ -68,7 +68,7 @@ class PiratePigGame extends Sprite {
 		
 		for (usedTile in usedTiles) {
 			
-			if (usedTile.removed && usedTile.type == type) {
+			if (usedTile.removed && usedTile.parent == null && usedTile.type == type) {
 				
 				tile = usedTile;
 				
