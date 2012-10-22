@@ -4,10 +4,10 @@
   <output>
     <movie outputType="Application" />
     <movie input="" />
-    <movie path="Pirate Pig.nmml" />
-    <movie fps="30" />
-    <movie width="640" />
-    <movie height="480" />
+    <movie path="project.nmml" />
+    <movie fps="60" />
+    <movie width="800" />
+    <movie height="500" />
     <movie version="3" />
     <movie minorVersion="0" />
     <movie platform="NME" />
@@ -20,11 +20,11 @@
   </classpaths>
   <!-- Build options -->
   <build>
-    <option directives="nme_install_tool&#xA;web" />
+    <option directives="nme_install_tool&#xA;web&#xA;code_completion" />
     <option flashStrict="False" />
     <option mainClass="ApplicationMain" />
     <option enabledebug="False" />
-    <option additional="-swf-version 10" />
+    <option additional="-swf-version 10.1" />
   </build>
   <!-- haxelib libraries -->
   <haxelib>
