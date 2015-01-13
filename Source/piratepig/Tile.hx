@@ -1,17 +1,14 @@
-package com.eclecticdesignstudio.piratepig;
+package piratepig;
 
 
-import com.eclecticdesignstudio.motion.Actuate;
-import com.eclecticdesignstudio.motion.actuators.GenericActuator;
-import com.eclecticdesignstudio.motion.easing.Linear;
-import com.eclecticdesignstudio.motion.easing.Quad;
-import nme.Assets;
-import nme.display.Bitmap;
-import nme.display.Sprite;
+import motion.easing.Quad;
+import motion.Actuate;
+import openfl.display.Bitmap;
+import openfl.display.Sprite;
+import openfl.Assets;
 
 
 /**
- * ...
  * @author Joshua Granick
  */
 class Tile extends Sprite {
@@ -21,23 +18,27 @@ class Tile extends Sprite {
 	public var moving:Bool;
 	public var removed:Bool;
 	public var row:Int;
-	public var type:Int;
+	public var type:TileType;
 	
 	
-	public function new (imagePath:String) {
+	public function new (type:TileType) {
 		
 		super ();
 		
-		var image = new Bitmap (Assets.getBitmapData (imagePath));
-		image.smoothing = true;
-		addChild (image);
+		switch (type) {
+			
+			case BEAR: addChild (new BearTile ());
+			case BUNNY: addChild (new BunnyTile ());
+			case CARROT: addChild (new CarrotTile ());
+			case LEMON: addChild (new LemonTile ());
+			case PANDA: addChild (new PandaTile ());
+			case PIG: addChild (new PigTile ());
+			default:
+			
+		}
 		
 		mouseChildren = false;
 		buttonMode = true;
-		
-		// Currently, MouseEvent listeners are added to each Tile.
-		// To make them easier to tap, add an empty fill to increase 
-		// the size of the hit area
 		
 		graphics.beginFill (0x000000, 0);
 		graphics.drawRect (-5, -5, 66, 66);
@@ -50,11 +51,12 @@ class Tile extends Sprite {
 		moving = false;
 		removed = false;
 		
-		#if !js
+		mouseEnabled = true;
+		buttonMode = true;
+		
 		scaleX = 1;
 		scaleY = 1;
 		alpha = 1;
-		#end
 		
 	}
 	
@@ -69,10 +71,6 @@ class Tile extends Sprite {
 	
 	
 	public function remove (animate:Bool = true):Void {
-		
-		#if js
-		animate = false;
-		#end
 		
 		if (!removed) {
 			
@@ -117,5 +115,17 @@ class Tile extends Sprite {
 		
 	}
 	
+	
+}
+
+
+enum TileType {
+	
+	BEAR;
+	BUNNY;
+	CARROT;
+	LEMON;
+	PANDA;
+	PIG;
 	
 }

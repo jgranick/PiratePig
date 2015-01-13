@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project>
 	
-	<meta title="Pirate Pig" package="com.eclecticdesignstudio.piratepig" version="1.0.0" company="Eclectic Design Studio" />
-	<app path="Export" file="PiratePig" main="com.eclecticdesignstudio.piratepig.PiratePig" />
+	<meta title="Pirate Pig" package="com.joshuagranick.piratepig" version="1.0.0" company="Joshua Granick" />
+	<app path="Export" file="PiratePig" main="piratepig.PiratePig" />
 	
-	<window width="800" height="600" if="desktop" />
-	<window width="0" height="0" if="web" />
+	<window width="800" height="800" />
+	<window width="0" height="0" if="html5" />
 	<window orientation="portrait" if="mobile" />
 	<window fps="60" />
 	
-	<!-- <window shaders="true" if="desktop" /> -->
-
 	<source path="Source" />
 	
-	<haxelib name="nme" />
+	<haxelib name="openfl" />
 	<haxelib name="actuate" />
+	<haxelib name="layout" />
 	
-	<assets path="Assets/fonts" rename="fonts" include="*.ttf" />
-	<assets path="Assets/images" rename="images" include="*" exclude="icon.svg" />
+	<assets path="Assets" rename="assets" exclude="*.fla|icon.svg|*.ogg|*.mp3|*.wav" />
 	
 	<icon path="Assets/images/icon.svg" />
 	
@@ -27,12 +25,13 @@
 		<sound path="5.mp3" id="sound5" />
 		<music path="theme.mp3" id="soundTheme" />
 	</assets>
+	<assets path="Assets/sounds" rename="sounds" if="html5" />
 	
 	<assets path="Assets/sounds" rename="sounds" unless="web">
 		<sound path="3.wav" id="sound3" />
 		<sound path="4.wav" id="sound4" />
 		<sound path="5.wav" id="sound5" />
-		<music path="theme.mp3" id="soundTheme" />
+		<music path="theme.ogg" id="soundTheme" />
 	</assets>
 	
 	<section if="release-sign">
@@ -40,6 +39,6 @@
 		<certificate path="~/Development/BlackBerry/author.p12" if="blackberry" />
 	</section>
 	
-	<haxeflag name="--dead-code-elimination" if="html5" />
+	<haxeflag name="-dce" value="full" if="html5" />
 	
 </project>

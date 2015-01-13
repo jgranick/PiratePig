@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<bundle>
+	
+	<haxelib name="swf" />
+	
+	<library path="PiratePig.swf" generate="true" type="swflite" />
+	
+</bundle>

@@ -1,70 +1,56 @@
-package com.eclecticdesignstudio.piratepig;
+package piratepig;
 
 
-import com.eclecticdesignstudio.motion.Actuate;
-import com.eclecticdesignstudio.motion.easing.Quad;
-import nme.display.Bitmap;
-import nme.display.Sprite;
-import nme.events.Event;
-import nme.events.MouseEvent;
-import nme.filters.BlurFilter;
-import nme.filters.DropShadowFilter;
-import nme.geom.Point;
-import nme.media.Sound;
-import nme.text.TextField;
-import nme.text.TextFormat;
-import nme.text.TextFormatAlign;
-import nme.Assets;
-import nme.Lib;
+import motion.easing.Quad;
+import motion.Actuate;
+import openfl.display.MovieClip;
+import openfl.display.Sprite;
+import openfl.events.Event;
+import openfl.events.MouseEvent;
+import openfl.geom.Point;
+import openfl.text.TextField;
+import openfl.Assets;
+import piratepig.Tile;
 
 
 /**
- * ...
  * @author Joshua Granick
  */
-class PiratePigGame extends Sprite {
+class Game extends Sprite {
 	
 	
-	private static var NUM_COLUMNS:Int = 8;
-	private static var NUM_ROWS:Int = 8;
-	
-	private static var tileImages:Array <String> = [ "images/game_bear.png", "images/game_bunny_02.png", "images/game_carrot.png", "images/game_lemon.png", "images/game_panda.png", "images/game_piratePig.png" ];
-	
-	private var Background:Sprite;
-	private var IntroSound:Sound;
-	private var Logo:Bitmap;
 	private var Score:TextField;
-	private var Sound3:Sound;
-	private var Sound4:Sound;
-	private var Sound5:Sound;
-	private var TileContainer:Sprite;
-	
-	public var currentScale:Float;
-	public var currentScore:Int;
+	private var TileContainer:MovieClip;
 	
 	private var cacheMouse:Point;
+	private var currentScore:Int;
+	private var display:PiratePig;
 	private var needToCheckMatches:Bool;
+	private var numColumns = 8;
+	private var numRows = 8;
 	private var selectedTile:Tile;
-	private var tiles:Array <Array <Tile>>;
-	private var usedTiles:Array <Tile>;
+	private var tiles:Array<Array<Tile>>;
+	private var tileSpacing:Point;
+	private var usedTiles:Array<Tile>;
 	
 	
-	public function new () {
+	
+	public function new (display:PiratePig) {
 		
 		super ();
 		
+		this.display = display;
+		
 		initialize ();
 		construct ();
-		
-		newGame ();
-		
+	
 	}
 	
 	
 	private function addTile (row:Int, column:Int, animate:Bool = true):Void {
 		
 		var tile = null;
-		var type = Math.round (Math.random () * (tileImages.length - 1));
+		var type = Type.createEnumIndex (TileType, Math.round (Math.random () * (Type.allEnums (TileType).length - 1)));
 		
 		for (usedTile in usedTiles) {
 			
@@ -78,7 +64,7 @@ class PiratePigGame extends Sprite {
 		
 		if (tile == null) {
 			
-			tile = new Tile (tileImages[type]);
+			tile = new Tile (type);
 			
 		}
 		
@@ -95,16 +81,12 @@ class PiratePigGame extends Sprite {
 			
 			var firstPosition = getPosition (-1, column);
 			
-			#if !js
 			tile.alpha = 0;
-			#end
 			tile.x = firstPosition.x;
 			tile.y = firstPosition.y;
 			
 			tile.moveTo (0.15 * (row + 1), position.x, position.y);
-			#if !js
 			Actuate.tween (tile, 0.3, { alpha: 1 } ).delay (0.15 * (row - 2)).ease (Quad.easeOut);
-			#end
 			
 		} else {
 			
@@ -113,7 +95,7 @@ class PiratePigGame extends Sprite {
 			
 		}
 		
-		TileContainer.addChild (tile);
+		addChild (tile);
 		needToCheckMatches = true;
 		
 	}
@@ -121,68 +103,47 @@ class PiratePigGame extends Sprite {
 	
 	private function construct ():Void {
 		
-		Logo.smoothing = true;
-		addChild (Logo);
+		for (row in 0...numRows) {
+			
+			for (column in 0...numColumns) {
+				
+				removeTile (row, column, false);
+				
+			}
+			
+		}
 		
-		var font = Assets.getFont ("fonts/FreebooterUpdated.ttf");
-		var defaultFormat = new TextFormat (font.fontName, 60, 0x000000);
-		defaultFormat.align = TextFormatAlign.RIGHT;
+		for (row in 0...numRows) {
+			
+			for (column in 0...numColumns) {
+				
+				addTile (row, column, false);
+				
+			}
+			
+		}
 		
-		#if js
-		// Right-aligned text is not supported in HTML5 yet
-		defaultFormat.align = TextFormatAlign.LEFT;
-		#end
+		resize ();
 		
-		var contentWidth = 75 * NUM_COLUMNS;
+		display.addEventListener (MouseEvent.MOUSE_DOWN, display_onMouseDown);
+		display.addEventListener (MouseEvent.MOUSE_UP, display_onMouseUp);
 		
-		Score.x = contentWidth - 200;
-		Score.width = 200;
-		Score.y = 12;
-		Score.selectable = false;
-		Score.defaultTextFormat = defaultFormat;
+		Assets.getSound ("soundTheme").play ();
 		
-		#if !js
-		Score.filters = [ new BlurFilter (1.5, 1.5), new DropShadowFilter (1, 45, 0, 0.2, 5, 5) ];
-		#else
-		Score.y = 0;
-		Score.x += 90;
-		#end
-		
-		Score.embedFonts = true;
-		addChild (Score);
-		
-		Background.y = 85;
-		Background.graphics.beginFill (0xFFFFFF, 0.4);
-		Background.graphics.drawRect (0, 0, contentWidth, 75 * NUM_ROWS);
-		
-		#if !js
-		Background.filters = [ new BlurFilter (10, 10) ];
-		addChild (Background);
-		#end
-		
-		TileContainer.x = 14;
-		TileContainer.y = Background.y + 14;
-		TileContainer.addEventListener (MouseEvent.MOUSE_DOWN, TileContainer_onMouseDown);
-		Lib.current.stage.addEventListener (MouseEvent.MOUSE_UP, stage_onMouseUp);
-		addChild (TileContainer);
-		
-		IntroSound = Assets.getSound ("soundTheme");
-		Sound3 = Assets.getSound ("sound3");
-		Sound4 = Assets.getSound ("sound4");
-		Sound5 = Assets.getSound ("sound5");
+		addEventListener (Event.ENTER_FRAME, this_onEnterFrame);
 		
 	}
 	
 	
 	private function dropTiles ():Void {
 		
-		for (column in 0...NUM_COLUMNS) {
+		for (column in 0...numColumns) {
 			
 			var spaces = 0;
 			
-			for (row in 0...NUM_ROWS) {
+			for (row in 0...numRows) {
 				
-				var index = (NUM_ROWS - 1) - row;
+				var index = (numRows - 1) - row;
 				var tile = tiles[index][column];
 				
 				if (tile == null) {
@@ -220,7 +181,7 @@ class PiratePigGame extends Sprite {
 	}
 	
 	
-	private function findMatches (byRow:Bool, accumulateScore:Bool = true):Array <Tile> {
+	public function findMatches (byRow:Bool, accumulateScore:Bool = true):Array <Tile> {
 		
 		var matchedTiles = new Array <Tile> ();
 		
@@ -229,13 +190,13 @@ class PiratePigGame extends Sprite {
 		
 		if (byRow) {
 			
-			max = NUM_ROWS;
-			secondMax = NUM_COLUMNS;
+			max = numRows;
+			secondMax = numColumns;
 			
 		} else {
 			
-			max = NUM_COLUMNS;
-			secondMax = NUM_ROWS;
+			max = numColumns;
+			secondMax = numRows;
 			
 		}
 		
@@ -243,7 +204,7 @@ class PiratePigGame extends Sprite {
 			
 			var matches = 0;
 			var foundTiles = new Array <Tile> ();
-			var previousType = -1;
+			var previousType = null;
 			
 			for (secondIndex in 0...secondMax) {
 				
@@ -261,7 +222,7 @@ class PiratePigGame extends Sprite {
 				
 				if (tile != null && !tile.moving) {
 					
-					if (previousType == -1) {
+					if (previousType == null) {
 						
 						previousType = tile.type;
 						foundTiles.push (tile);
@@ -278,21 +239,21 @@ class PiratePigGame extends Sprite {
 				
 				if (tile == null || tile.moving || tile.type != previousType || secondIndex == secondMax - 1) {
 					
-					if (matches >= 2 && previousType != -1) {
+					if (matches >= 2 && previousType != null) {
 						
 						if (accumulateScore) {
 							
 							if (matches > 3) {
 								
-								Sound5.play ();
+								Assets.getSound ("sound5").play ();
 								
 							} else if (matches > 2) {
 								
-								Sound4.play ();
+								Assets.getSound ("sound4").play ();
 								
 							} else {
 								
-								Sound3.play ();
+								Assets.getSound ("sound3").play ();
 								
 							}
 							
@@ -310,7 +271,7 @@ class PiratePigGame extends Sprite {
 					if (tile == null || tile.moving) {
 						
 						needToCheckMatches = true;
-						previousType = -1;
+						previousType = null;
 						
 					} else {
 						
@@ -332,24 +293,33 @@ class PiratePigGame extends Sprite {
 	
 	private function getPosition (row:Int, column:Int):Point {
 		
-		return new Point (column * (57 + 16), row * (57 + 16));
+		return new Point (column * tileSpacing.x, row * tileSpacing.y);
 		
 	}
 	
 	
 	private function initialize ():Void {
 		
-		currentScale = 1;
+		Score = display.Score;
+		TileContainer = display.TileContainer;
+		
+		var tile = TileContainer.getChildByName ("Tile");
+		var tile2 = TileContainer.getChildByName ("Tile2");
+		var tile3 = TileContainer.getChildByName ("Tile3");
+		
+		tileSpacing = new Point (tile2.x - tile.x, tile3.y - tile.y);
+		
 		currentScore = 0;
+		Score.text = "0";
 		
-		tiles = new Array <Array <Tile>> ();
-		usedTiles = new Array <Tile> ();
+		tiles = new Array<Array<Tile>> ();
+		usedTiles = new Array<Tile> ();
 		
-		for (row in 0...NUM_ROWS) {
+		for (row in 0...numRows) {
 			
-			tiles[row] = new Array <Tile> ();
+			tiles[row] = new Array<Tile> ();
 			
-			for (column in 0...NUM_COLUMNS) {
+			for (column in 0...numColumns) {
 				
 				tiles[row][column] = null;
 				
@@ -357,48 +327,10 @@ class PiratePigGame extends Sprite {
 			
 		}
 		
-		Background = new Sprite ();
-		Logo = new Bitmap (Assets.getBitmapData ("images/logo.png"));
-		Score = new TextField ();
-		TileContainer = new Sprite ();
-		
 	}
 	
 	
-	public function newGame ():Void {
-		
-		currentScore = 0;
-		Score.text = "0";
-		
-		for (row in 0...NUM_ROWS) {
-			
-			for (column in 0...NUM_COLUMNS) {
-				
-				removeTile (row, column, false);
-				
-			}
-			
-		}
-		
-		for (row in 0...NUM_ROWS) {
-			
-			for (column in 0...NUM_COLUMNS) {
-				
-				addTile (row, column, false);
-				
-			}
-			
-		}
-		
-		IntroSound.play ();
-		
-		removeEventListener (Event.ENTER_FRAME, this_onEnterFrame);
-		addEventListener (Event.ENTER_FRAME, this_onEnterFrame);
-		
-	}
-	
-	
-	public function removeTile (row:Int, column:Int, animate:Bool = true):Void {
+	private function removeTile (row:Int, column:Int, animate:Bool = true):Void {
 		
 		var tile = tiles[row][column];
 		
@@ -414,57 +346,17 @@ class PiratePigGame extends Sprite {
 	}
 	
 	
-	public function resize (newWidth:Int, newHeight:Int):Void {
+	public function resize ():Void {
 		
-		var maxWidth = newWidth * 0.90;
-		var maxHeight = newHeight * 0.86;
-		
-		currentScale = 1;
-		scaleX = 1;
-		scaleY = 1;
-		
-		#if js
-		
-		// looking up the total width and height is not working, so we'll calculate it ourselves
-		
-		var currentWidth = 75 * NUM_COLUMNS;
-		var currentHeight = 75 * NUM_ROWS + 85;
-		
-		#else
-		
-		var currentWidth = width;
-		var currentHeight = height;
-		
-		#end
-		
-		if (currentWidth > maxWidth || currentHeight > maxHeight) {
-			
-			var maxScaleX = maxWidth / currentWidth;
-			var maxScaleY = maxHeight / currentHeight;
-			
-			if (maxScaleX < maxScaleY) {
-				
-				currentScale = maxScaleX;
-				
-			} else {
-				
-				currentScale = maxScaleY;
-				
-			}
-			
-			scaleX = currentScale;
-			scaleY = currentScale;
-			
-		}
-		
-		x = newWidth / 2 - (currentWidth * currentScale) / 2;
+		x = TileContainer.x;
+		y = TileContainer.y;
 		
 	}
 	
 	
 	private function swapTile (tile:Tile, targetRow:Int, targetColumn:Int):Void {
 		
-		if (targetColumn >= 0 && targetColumn < NUM_COLUMNS && targetRow >= 0 && targetRow < NUM_ROWS) {
+		if (targetColumn >= 0 && targetColumn < numColumns && targetRow >= 0 && targetRow < numRows) {
 			
 			var targetTile = tiles[targetRow][targetColumn];
 			
@@ -508,7 +400,24 @@ class PiratePigGame extends Sprite {
 	
 	
 	
-	private function stage_onMouseUp (event:MouseEvent):Void {
+	private function display_onMouseDown (event:MouseEvent):Void {
+		
+		if (Std.is (event.target, Tile)) {
+			
+			selectedTile = cast event.target;
+			cacheMouse = new Point (event.stageX, event.stageY);
+			
+		} else {
+			
+			cacheMouse = null;
+			selectedTile = null;
+			
+		}
+		
+	}
+	
+	
+	private function display_onMouseUp (event:MouseEvent):Void {
 		
 		if (cacheMouse != null && selectedTile != null && !selectedTile.moving) {
 			
@@ -579,23 +488,6 @@ class PiratePigGame extends Sprite {
 				dropTiles ();
 				
 			}
-			
-		}
-		
-	}
-	
-	
-	private function TileContainer_onMouseDown (event:MouseEvent):Void {
-		
-		if (Std.is (event.target, Tile)) {
-			
-			selectedTile = cast event.target;
-			cacheMouse = new Point (event.stageX, event.stageY);
-			
-		} else {
-			
-			cacheMouse = null;
-			selectedTile = null;
 			
 		}
 		
