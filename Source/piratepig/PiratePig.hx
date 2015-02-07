@@ -1,7 +1,7 @@
 package piratepig;
 
 
-import layout.LayoutGroup;
+import layout.Layout;
 import layout.LayoutItem;
 import openfl.display.MovieClip;
 import openfl.events.Event;
@@ -22,7 +22,7 @@ class PiratePig extends PiratePig_Display {
 	public var TileContainer:MovieClip;
 	
 	private var currentGame:Game;
-	private var layout:LayoutGroup;
+	private var layout:Layout;
 	
 	
 	public function new () {
@@ -43,11 +43,11 @@ class PiratePig extends PiratePig_Display {
 		layout.minHeight = 800;
 		
 		layout.addItem (new LayoutItem (Background, STRETCH, STRETCH, false, false));
-		layout.addItem (new LayoutItem (Footer, CENTER, BOTTOM, false));
-		layout.addItem (new LayoutItem (Logo, CENTER, TOP));
-		layout.addItem (new LayoutItem (Score, CENTER, TOP));
-		layout.addItem (new LayoutItem (TileBackground, CENTER, TOP));
-		layout.addItem (new LayoutItem (TileContainer, CENTER, TOP));
+		layout.addItem (new LayoutItem (Footer, BOTTOM, CENTER, true, false));
+		layout.addItem (new LayoutItem (Logo, TOP, CENTER));
+		layout.addItem (new LayoutItem (Score, TOP, CENTER));
+		layout.addItem (new LayoutItem (TileBackground, TOP, CENTER));
+		layout.addItem (new LayoutItem (TileContainer, TOP, CENTER));
 		
 		TileContainer.visible = false;
 		
@@ -59,7 +59,7 @@ class PiratePig extends PiratePig_Display {
 	
 	private function initialize ():Void {
 		
-		layout = new LayoutGroup (1024, 848);
+		layout = new Layout ();
 		
 		Background = cast getChildByName ("Background");
 		Footer = cast getChildByName ("Footer");
