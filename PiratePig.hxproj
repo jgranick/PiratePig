@@ -15,22 +15,22 @@
   </output>
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
-    <class path="C:\Development\Haxe\openfl" />
-    <class path="C:\Development\Haxe\lime" />
-    <class path="C:\Development\Haxe\actuate" />
-    <class path="c:\Development\Haxe\layout" />
-    <class path="C:\Development\Haxe\swf" />
+    <class path="d:\Development\Haxe\openfl" />
+    <class path="d:\Development\Haxe\lime" />
+    <class path="D:\Development\Haxe\actuate" />
+    <class path="D:\Development\Haxe\layout" />
+    <class path="d:\Development\Haxe\swf" />
     <class path="Source" />
-    <class path="Export\html5\haxe" />
+    <class path="Export\windows\cpp\haxe" />
   </classpaths>
   <!-- Build options -->
   <build>
-    <option directives="openfl=2.2.4&#xA;lime=2.1.0&#xA;actuate=1.8.2&#xA;layout=1.2.0&#xA;swf=1.7.6&#xA;tools=2.1.0&#xA;no-compilation&#xA;openfl-html5&#xA;canvas&#xA;lime-html5&#xA;html5&#xA;web&#xA;html5" />
+    <option directives="openfl=3.0.2&#xA;lime=2.3.2&#xA;actuate=1.8.4&#xA;layout=1.2.0&#xA;swf=1.8.5&#xA;openfl-next&#xA;tools=2.3.2&#xA;no-compilation&#xA;native&#xA;lime-native&#xA;openfl-native&#xA;windows&#xA;desktop" />
     <option flashStrict="False" />
     <option noInlineOnDebug="False" />
     <option mainClass="ApplicationMain" />
     <option enabledebug="False" />
-    <option additional="--remap flash:openfl&#xA;-dce full&#xA;--macro allowPackage(&quot;flash&quot;)" />
+    <option additional="--remap flash:openfl&#xA;#--macro keep(&quot;piratepig.PiratePig&quot;)" />
   </build>
   <!-- haxelib libraries -->
   <haxelib>

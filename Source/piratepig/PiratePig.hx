@@ -14,13 +14,6 @@ import openfl.text.TextField;
 class PiratePig extends PiratePig_Display {
 	
 	
-	public var Background:MovieClip;
-	public var Footer:MovieClip;
-	public var Logo:MovieClip;
-	public var Score:TextField;
-	public var TileBackground:MovieClip;
-	public var TileContainer:MovieClip;
-	
 	private var currentGame:Game;
 	private var layout:Layout;
 	
@@ -60,13 +53,6 @@ class PiratePig extends PiratePig_Display {
 	private function initialize ():Void {
 		
 		layout = new Layout ();
-		
-		Background = cast getChildByName ("Background");
-		Footer = cast getChildByName ("Footer");
-		Logo = cast getChildByName ("Logo");
-		Score = cast getChildByName ("Score");
-		TileBackground = cast getChildByName ("TileBackground");
-		TileContainer = cast getChildByName ("TileContainer");
 		
 	}
 	
